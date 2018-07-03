@@ -13,6 +13,18 @@
                 <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} %line - %msg%n</pattern>
             </layout>
         </encoder>
+		<filter class="ch.qos.logback.core.filter.EvaluatorFilter">
+            <evaluator>
+                <expression>
+					return message.contains("Running the evict task with compensationTime")
+					|| message.contains("task supervisor rejected the task")
+					|| message.contains("Resolving eureka endpoints via configuration")
+					|| message.contains("Current renewal threshold is");
+				</expression>
+            </evaluator>
+            <OnMatch>DENY</OnMatch>
+            <OnMismatch>ACCEPT</OnMismatch>
+        </filter>
     </appender>
 
     <!-- info(or upper) level file output setting  -->
@@ -27,6 +39,18 @@
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
             <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} %line - %msg%n</pattern>
         </encoder>
+		<filter class="ch.qos.logback.core.filter.EvaluatorFilter">
+            <evaluator>
+                <expression>
+					return message.contains("Running the evict task with compensationTime")
+					|| message.contains("task supervisor rejected the task")
+					|| message.contains("Resolving eureka endpoints via configuration")
+					|| message.contains("Current renewal threshold is");
+				</expression>
+            </evaluator>
+            <OnMatch>DENY</OnMatch>
+            <OnMismatch>ACCEPT</OnMismatch>
+        </filter>
     </appender>
 
     <!-- warn(or upper) level file output setting  -->
@@ -43,6 +67,15 @@
         </encoder>
 		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
             <level>WARN</level>
+        </filter>
+		<filter class="ch.qos.logback.core.filter.EvaluatorFilter">
+            <evaluator>
+                <expression>
+					return message.contains("task supervisor rejected the task");
+				</expression>
+            </evaluator>
+            <OnMatch>DENY</OnMatch>
+            <OnMismatch>ACCEPT</OnMismatch>
         </filter>
     </appender>
 
